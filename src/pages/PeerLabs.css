@@ -1,0 +1,114 @@
+.labs-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+  .labs-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.lab-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  margin-bottom: 0.75rem;
+  transition: all var(--transition-fast);
+}
+
+.lab-item:hover {
+  background: var(--surface-color-light);
+}
+
+.lab-item.active {
+  border-color: hsl(var(--hsl-primary));
+  background: hsla(var(--hue-primary), 80%, 65%, 0.05);
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+
+.quiz-area {
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.empty-state, .generating-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.quiz-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.score-display {
+  font-weight: 700;
+  color: hsl(var(--hsl-accent));
+}
+
+.question-text {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+  line-height: 1.5;
+}
+
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.option-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-radius: var(--radius-md);
+  background: var(--surface-color-light);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  font-size: 1rem;
+  text-align: left;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.option-btn:hover:not(:disabled) {
+  border-color: hsl(var(--hsl-primary));
+  transform: translateX(4px);
+}
+
+.option-btn.selected {
+  border-color: hsl(var(--hsl-primary));
+  background: hsla(var(--hue-primary), 80%, 65%, 0.1);
+}
+
+.option-btn.correct {
+  border-color: lightgreen;
+  background: rgba(144, 238, 144, 0.1);
+}
+
+.option-btn.incorrect {
+  border-color: lightcoral;
+  background: rgba(240, 128, 128, 0.1);
+}
+
+.status-icon {
+  margin-left: 1rem;
+}

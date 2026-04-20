@@ -1,0 +1,78 @@
+.focus-room {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.timer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem;
+}
+
+.timer-circle {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  margin-bottom: 2rem;
+}
+
+.timer-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.timer-bg {
+  fill: none;
+  stroke: var(--surface-color-light);
+  stroke-width: 4;
+}
+
+.timer-progress {
+  fill: none;
+  stroke: url(#timer-gradient);
+  stroke: hsl(var(--hsl-accent));
+  stroke-width: 6;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s linear;
+}
+
+.timer-display {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.time {
+  font-size: 4rem;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+
+.mode {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+.timer-controls {
+  display: flex;
+  gap: 1rem;
+}
+
+.mt-4 {
+  margin-top: 1.5rem;
+}

@@ -1,0 +1,66 @@
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.tags-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  min-height: 50px;
+}
+
+.add-tag-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.input-with-icon {
+  position: relative;
+  flex: 1;
+}
+
+.input-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+}
+
+.input-with-icon .input-base {
+  padding-left: 2.5rem;
+}
+
+.flex-align {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.dashboard-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+}
+
+.btn-cta {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+}
