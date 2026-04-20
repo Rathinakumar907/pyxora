@@ -64,3 +64,85 @@
   padding: 1rem 2rem;
   font-size: 1.1rem;
 }
+
+/* --- EDITABLE TAG STYLES --- */
+
+.editable-tag-wrapper {
+  position: relative;
+  overflow: hidden;
+  transition: padding var(--transition-fast), transform var(--transition-fast), opacity var(--transition-fast);
+  padding-right: 0.75rem; /* Initial padding from badge */
+}
+
+.editable-tag-wrapper:hover {
+  padding-right: 3.5rem; /* Make room for two action icons */
+}
+
+.tag-actions {
+  position: absolute;
+  right: 0.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 0.15rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-fast);
+}
+
+.editable-tag-wrapper:hover .tag-actions {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.action-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.action-btn:hover {
+  color: var(--text-main);
+  background: var(--border-color);
+}
+
+.delete-btn:hover {
+  color: hsl(0, 80%, 65%);
+  background: hsla(0, 80%, 65%, 0.15);
+}
+
+.edit-btn:hover {
+  color: hsl(var(--hsl-primary));
+  background: hsla(var(--hue-primary), 80%, 65%, 0.15);
+}
+
+.editable-tag-input {
+  outline: none;
+  background: var(--surface-color-light);
+  color: var(--text-main);
+  border: 1px solid hsl(var(--hsl-primary));
+  box-shadow: 0 0 0 2px hsla(var(--hue-primary), 80%, 65%, 0.2);
+  width: 120px;
+  font-family: inherit;
+  transition: all var(--transition-fast);
+}
+
+.tag-removing {
+  transform: scale(0.8);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.empty-state-text {
+  font-size: 0.9rem;
+  font-style: italic;
+  width: 100%;
+}

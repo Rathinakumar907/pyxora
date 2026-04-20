@@ -26,8 +26,28 @@ export const AppProvider = ({ children }) => {
     if (!teachTags.includes(tag)) setTeachTags([...teachTags, tag]);
   };
 
+  const removeTeachTag = (tagToRemove) => {
+    setTeachTags(teachTags.filter(tag => tag !== tagToRemove));
+  };
+
+  const updateTeachTag = (oldTag, newTag) => {
+    if (teachTags.includes(newTag)) return false; // duplicate
+    setTeachTags(teachTags.map(tag => tag === oldTag ? newTag : tag));
+    return true;
+  };
+
   const addLearnTag = (tag) => {
     if (!learnTags.includes(tag)) setLearnTags([...learnTags, tag]);
+  };
+
+  const removeLearnTag = (tagToRemove) => {
+    setLearnTags(learnTags.filter(tag => tag !== tagToRemove));
+  };
+
+  const updateLearnTag = (oldTag, newTag) => {
+    if (learnTags.includes(newTag)) return false; // duplicate
+    setLearnTags(learnTags.map(tag => tag === oldTag ? newTag : tag));
+    return true;
   };
 
   const spendCredits = (amount) => {
@@ -46,8 +66,8 @@ export const AppProvider = ({ children }) => {
     <AppContext.Provider value={{
       user, login, logout,
       credits, spendCredits, earnCredits,
-      teachTags, addTeachTag,
-      learnTags, addLearnTag,
+      teachTags, addTeachTag, removeTeachTag, updateTeachTag,
+      learnTags, addLearnTag, removeLearnTag, updateLearnTag,
       theme, toggleTheme
     }}>
       {children}

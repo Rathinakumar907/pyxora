@@ -14,10 +14,24 @@ const Session = () => {
   const [selectedMode, setSelectedMode] = useState('solve'); // 'chat', 'solve', 'deep'
   const [isUrgent, setIsUrgent] = useState(false);
   
+  // adding states for matched UI
+  const [matchedPeer, setMatchedPeer] = useState(null);
+
+  // Mock Data
+  const MOCK_PEERS = [
+    { name: 'Arjun', skills: ['Data Structures', 'Python', 'Algorithms', 'General Studies'], rating: 4.8, success: 90, level: 'Expert' },
+    { name: 'Kavya', skills: ['Organic Chemistry', 'Calculus', 'General Studies'], rating: 4.4, success: 78, level: 'Intermediate' },
+    { name: 'Rohan', skills: ['Physics', 'Calculus', 'React'], rating: 4.9, success: 95, level: 'Expert' },
+    { name: 'Priya', skills: ['Python', 'SQL', 'Data Science', 'General Studies'], rating: 4.3, success: 72, level: 'Intermediate' },
+    { name: 'Vikram', skills: ['Organic Chemistry', 'Biology'], rating: 4.5, success: 80, level: 'Intermediate' },
+    { name: 'Neha', skills: ['Java', 'Object Oriented Programming', 'General Studies'], rating: 4.7, success: 88, level: 'Expert' },
+    { name: 'Aakash', skills: ['JavaScript', 'HTML', 'CSS', 'React', 'General Studies'], rating: 4.6, success: 82, level: 'Intermediate' },
+    { name: 'Megha', skills: ['Calculus', 'Algebra', 'Geometry'], rating: 4.2, success: 70, level: 'Beginner' },
+    { name: 'Sunil', skills: ['Data Structures', 'Algorithms', 'Java'], rating: 4.8, success: 87, level: 'Expert' }
+  ];
+
   // Interactive session states
-  const [messages, setMessages] = useState([
-    { sender: 'Peer', text: `Hey! Ready to go over ${selectedTopic}?` }
-  ]);
+  const [messages, setMessages] = useState([]);
   const [inputMsg, setInputMsg] = useState('');
 
   // Cost calculation
@@ -57,9 +71,39 @@ const Session = () => {
 
   const startMatchingFlow = () => {
     setAppState('matching');
+
     setTimeout(() => {
+      // 1. Topic Match
+      let topicMatches = MOCK_PEERS.filter(p => 
+        p.skills.some(s => s.toLowerCase() === selectedTopic.toLowerCase() || s.toLowerCase() === 'general studies')
+      );
+      if (topicMatches.length === 0) topicMatches = MOCK_PEERS;
+
+      // 2. Mode Match
+      let validMatches = [];
+      if (isUrgent) {
+        validMatches = topicMatches.filter(p => p.rating >= 4.7 && p.success >= 85);
+      } else {
+        validMatches = topicMatches.filter(p => p.rating <= 4.7);
+      }
+      if (validMatches.length === 0) validMatches = topicMatches;
+
+      // 3. Randomize selection
+      const chosen = { ...validMatches[Math.floor(Math.random() * validMatches.length)] };
+
+      // 4. Jitter if 1 match
+      if (validMatches.length <= 1) {
+        chosen.rating = Math.max(4.0, Math.min(5.0, chosen.rating + (Math.random() * 0.4 - 0.2)));
+        chosen.success = Math.max(60, Math.min(100, Math.round(chosen.success + (Math.random() * 6 - 3))));
+      }
+      
+      // format rating
+      chosen.rating = Number(chosen.rating).toFixed(1);
+
+      setMatchedPeer(chosen);
+      setMessages([{ sender: chosen.name, text: `Hey! Ready to go over ${selectedTopic}?` }]);
       setAppState('matched');
-    }, 2500);
+    }, isUrgent ? 2000 : 3000);
   };
 
   const startSession = () => {
@@ -72,7 +116,7 @@ const Session = () => {
       setMessages([...messages, { sender: 'You', text: inputMsg }]);
       setInputMsg('');
       setTimeout(() => {
-        setMessages(prev => [...prev, { sender: 'Peer', text: 'Yeah, that makes sense!' }]);
+        setMessages(prev => [...prev, { sender: matchedPeer?.name || 'Peer', text: 'Yeah, that makes sense!' }]);
       }, 1500);
     }
   };
@@ -216,25 +260,29 @@ const Session = () => {
   }
 
   // 3. MATCH RESULT VIEW
-  if (appState === 'matched') {
+  if (appState === 'matched' && matchedPeer) {
     return (
       <div className="session-hub animate-fade-in">
         <h2 className="h2 text-center text-gradient mb-4">Match Found! 🎉</h2>
         <div className="match-result-card card glass center-card">
           <div className="match-profile-large">
             <div className="avatar-large">👨🏽‍🎓</div>
-            <h3 className="h2 mt-2">Arjun</h3>
-            <span className="badge badge-learn mb-4">{selectedTopic}</span>
+            <h3 className="h2 mt-2">{matchedPeer.name}</h3>
+            
+            <div className="match-tags flex-align mx-auto justify-center mb-4 mt-2" style={{gap: '0.5rem', flexWrap: 'wrap'}}>
+              <span className="badge badge-learn flex-align gap-1"><CheckCircle2 size={12}/> Matched for your topic</span>
+              {isUrgent && <span className="badge badge-teach flex-align gap-1"><Zap size={12} fill="currentColor"/> Top Mentor ⚡</span>}
+            </div>
             
             <div className="match-stats-large mb-4">
               <div className="stat-box">
-                <Star size={18} color="gold" />
-                <span className="stat-val">4.8</span>
+                <Star size={18} color="gold" fill="gold" />
+                <span className="stat-val">{matchedPeer.rating}</span>
                 <span className="stat-lbl">Rating</span>
               </div>
               <div className="stat-box">
                 <CheckCircle2 size={18} color="lightgreen" />
-                <span className="stat-val">85%</span>
+                <span className="stat-val">{matchedPeer.success}%</span>
                 <span className="stat-lbl">Success</span>
               </div>
             </div>
@@ -253,7 +301,7 @@ const Session = () => {
     return (
       <div className="session-container animate-fade-in">
         <header className="session-header">
-          <h1 className="h2 flex-align"><div className="live-dot"></div> Live Session with Arjun</h1>
+          <h1 className="h2 flex-align"><div className="live-dot"></div> Live Session with {matchedPeer?.name || 'Peer'}</h1>
           <button className="btn btn-outline" onClick={endSession}>End Session & Earn</button>
         </header>
 
